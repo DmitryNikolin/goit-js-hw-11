@@ -37,7 +37,7 @@ a {
   margin-left: 20px;
 }
 
-.search-container__form {
+.search-form {
   margin-left: 20px;
   max-width: 700px;
   height: 40px;
@@ -47,7 +47,7 @@ a {
   border: 1px solid #fff;
 }
 
-.search-container__form input {
+.search-form input {
   max-width: 370px;
   padding: 10px 5px;
   float: left;
@@ -58,12 +58,12 @@ a {
   border-radius: 3px 0 0 3px;
 }
 
-.search-container__form input:focus {
+.search-form input:focus {
   outline: 0;
   background: transparent;
 }
 
-.search-container__form button {
+.search-form button {
   position: relative;
   float: right;
   border: 0;
@@ -77,16 +77,16 @@ a {
   border-radius: 0 3px 3px 0;
 }
 
-.search-container__form button:hover {
+.search-form button:hover {
   background: #fff;
   color: #444;
 }
 
-.search-container__form button:active {
+.search-form button:active {
   box-shadow: 0px 0px 12px 0px rgb(225, 225, 225);
 }
 
-.search-container__form button:focus {
+.search-form button:focus {
   outline: 0;
 }
 
@@ -168,18 +168,4 @@ a {
 
 .btn-container .close-btn {
   bottom: 80px;
-}
-
-.preloader {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  width: 100%;
-  background: rgb(23, 22, 22);
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 9999;
-  transition: opacity 0.3s linear;
 }

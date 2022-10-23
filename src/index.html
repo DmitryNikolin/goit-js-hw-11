@@ -11,23 +11,29 @@
     />
   </head>
   <body>
-
     <div class="search-container">
-
-      <form class="search-container__form" id="search-form">
-        <input type="text" name="searchQuery" autocomplete="off" />
-        <button class="search-btn material-symbols-outlined" type="submit" name="submitBtn">search</button>
+      <form class="search-form" id="search-form">
+        <input
+          type="text"
+          name="searchQuery"
+          autocomplete="off"
+          placeholder="Search images..."
+          />
+        <button type="submit">Search</button>
       </form>
     </div>
 
     <div class="gallery"></div>
 
     <div class="btn-container">
-      <button type="button" class="load-more material-symbols-outlined">more_horiz</button>
-      <button type="button" class="close-btn material-symbols-outlined">close</button>
+      <button type="button" class="load-more material-symbols-outlined">
+        more_horiz
+      </button>
+      <button type="button" class="close-btn material-symbols-outlined">
+        close
+      </button>
     </div>
 
     <script type="module" src="./index.js"></script>
   </body>
 </html>
-

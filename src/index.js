@@ -1,29 +1,25 @@
+import 'simplelightbox';
 import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
 import Notiflix from 'notiflix';
 import axios from 'axios';
 
-// HTML elements
-
 const searchQuery = document.querySelector('input[name="searchQuery"]');
-const closeBtn = document.querySelector('.close-btn');
 const searchForm = document.querySelector('#search-form');
 const gallery = document.querySelector('.gallery');
 const loadBtn = document.querySelector('.load-more');
+const closeBtn = document.querySelector('.close-btn');
 
-// Needed to query the Pixabay API
 let perPage = 40;
 let page = 0;
 let name = searchQuery.value;
-
-// Needed to hide "load more" and "close" buttons
 
 loadBtn.style.display = 'none';
 closeBtn.style.display = 'none';
 
 async function fetchImages(name, page, perPage) {
   const baseURL = 'https://pixabay.com/api/';
-  const key = '28143013-44919de38ad9e5402793063fb';
+  const key = '30807376-0b6c24285cff505c2f1e15934';
 
   try {
     const response = await axios.get(
@@ -34,8 +30,6 @@ async function fetchImages(name, page, perPage) {
     console.log('ERROR: ' + error);
   }
 }
-
-// Handling the "submit" button event
 
 async function eventHandler(e) {
   e.preventDefault();
@@ -64,12 +58,12 @@ async function eventHandler(e) {
         } else {
           loadBtn.style.display = 'none';
           Notiflix.Notify.info(
-            "We're sorry, but you've reached the end of search results."
+            "You've reached the end of search results..."
           );
         }
       } else {
         Notiflix.Notify.failure(
-          'Sorry, there are no images matching your search query. Please try again.'
+          'There are no images matching your search query. Please try again...'
         );
         gallery.innerHTML = '';
       }
@@ -78,8 +72,6 @@ async function eventHandler(e) {
 }
 
 searchForm.addEventListener('submit', eventHandler);
-
-// Function for markup for HTML gallery element
 
 function renderGallery(name) {
   const markup = name.hits
@@ -124,8 +116,6 @@ function renderGallery(name) {
   gallery.insertAdjacentHTML('beforeend', markup);
 }
 
-// Load more button - function
-
 loadBtn.addEventListener(
   'click',
   () => {
@@ -138,14 +128,10 @@ loadBtn.addEventListener(
       if (page >= totalPages) {
         loadBtn.style.display = 'none';
         Notiflix.Notify.info(
-          "We're sorry, but you've reached the end of search results."
+          "You've reached the end of search results..."
         );
       }
     });
   },
   true
 );
-
-// Preloader
-
-window.addEventListener('load', fadeEffect);
