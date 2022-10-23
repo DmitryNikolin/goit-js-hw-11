@@ -24,9 +24,9 @@ a {
 }
 
 .search-container {
-  background-color: rgba(255, 255, 0, 0.568);
+  background-color: rgba(225, 225, 0, 0.7);
   padding-top: 15px;
-  height: 70px;
+  height: 80px;
   background-size: cover;
   display: flex;
   justify-content: flex-start;
@@ -47,10 +47,12 @@ a {
 .search-form input {
   max-width: 370px;
   padding: 10px 10px;
+  float: left;
   color: black;
   font-weight: 800;
   border: 0;
   background: transparent;
+  border-radius: 10px 0 0 10px;
 }
 
 .search-form input:focus {
@@ -68,6 +70,7 @@ a {
   color: white;
   background: transparent;
   border-left: 1px solid white;
+  border-radius: 0 10px 10px 0;
 }
 
 .search-form button:hover {
@@ -132,13 +135,13 @@ a {
 }
 
 .btn-container {
-  position: relative;
+  /* position: relative; */
   height: 100%;
 }
 
 .btn-container .load-more,
 .btn-container .close-btn {
-  position: absolute;
+  /* position: absolute; */
   width: 40px;
   height: 40px;
   right: 30px;
@@ -153,6 +156,7 @@ a {
   background: #444;
   border-radius: 50%;
   border: 1px solid #444;
+  cursor: pointer;
 }
 
 .btn-container .load-more {
