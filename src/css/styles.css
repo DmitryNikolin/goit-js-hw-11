@@ -24,6 +24,8 @@ a {
 }
 
 .search-container {
+  position: sticky;
+  top: 0;
   background-color: rgba(225, 225, 0, 0.7);
   padding-top: 15px;
   height: 80px;
@@ -135,16 +137,16 @@ a {
 }
 
 .btn-container {
-  /* position: relative; */
+  position: relative;
   height: 100%;
 }
 
 .btn-container .load-more,
 .btn-container .close-btn {
-  /* position: absolute; */
+  position: absolute;
   width: 40px;
   height: 40px;
-  right: 30px;
+  right: 5px;
   background: #fff;
   border-radius: 50%;
   border: 1px solid #444;
