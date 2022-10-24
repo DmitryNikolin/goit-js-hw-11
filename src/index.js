@@ -7,6 +7,7 @@ import axios from 'axios';
 const searchQuery = document.querySelector('input[name="searchQuery"]');
 const searchForm = document.querySelector('#search-form');
 const gallery = document.querySelector('.gallery');
+const searchBtn = document.querySelector('.search');
 const loadBtn = document.querySelector('.load-more');
 const closeBtn = document.querySelector('.close-btn');
 
