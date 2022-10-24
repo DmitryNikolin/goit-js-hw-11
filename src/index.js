@@ -14,7 +14,7 @@ const closeBtn = document.querySelector('.close-btn');
 let perPage = 40;
 let page = 0;
 let name = searchQuery.value;
-
+  
 loadBtn.style.display = 'none';
 closeBtn.style.display = 'none';
 
@@ -38,7 +38,12 @@ async function eventHandler(e) {
   loadBtn.style.display = 'none';
 
   page = 1;
-  name = searchQuery.value;
+  name = searchQuery.value.trim();
+
+  if (name.length === 0) {
+    Notiflix.Notify.warning('You must enter a search string (at least 1 character)...');
+    return;
+  }
 
   fetchImages(name, page, perPage)
     .then(name => {
