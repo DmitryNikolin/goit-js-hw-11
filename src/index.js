@@ -11,12 +11,25 @@ const searchBtn = document.querySelector('.search');
 const loadBtn = document.querySelector('.load-more');
 const closeBtn = document.querySelector('.close-btn');
 
-let perPage = 40;
+let perPage = 20;
 let page = 0;
-let name = searchQuery.value;
-  
+let name = searchQuery.value.trim();
+
 loadBtn.style.display = 'none';
 closeBtn.style.display = 'none';
+searchBtn.style.visibility = 'hidden';
+
+searchQuery.addEventListener('input', searchBtnAdd);
+
+function searchBtnAdd(e) {
+  let searchStr = e.target.value.trim();
+  if (searchStr.length !== 0) {
+    searchBtn.style.visibility = 'visible';
+  } else {
+    searchBtn.style.visibility = 'hidden';
+    gallery.innerHTML = '';
+  }
+}
 
 async function fetchImages(name, page, perPage) {
   const baseURL = 'https://pixabay.com/api/';
@@ -40,32 +53,26 @@ async function eventHandler(e) {
   page = 1;
   name = searchQuery.value.trim();
 
-  if (name.length === 0) {
-    Notiflix.Notify.warning('You must enter a search string (at least 1 character)...');
-    return;
-  }
-
   fetchImages(name, page, perPage)
     .then(name => {
       let totalPages = name.totalHits / perPage;
 
       if (name.hits.length > 0) {
-        Notiflix.Notify.success(`Hooray! We found ${name.totalHits} images.`);
+        Notiflix.Notify.success(`We found ${name.totalHits} images.`);
         renderGallery(name);
         new SimpleLightbox('.gallery a');
         closeBtn.style.display = 'block';
         closeBtn.addEventListener('click', () => {
           gallery.innerHTML = '';
           closeBtn.style.display = 'none';
+          loadBtn.style.display = 'none';
         });
 
         if (page < totalPages) {
           loadBtn.style.display = 'block';
         } else {
           loadBtn.style.display = 'none';
-          Notiflix.Notify.info(
-            "You've reached the end of search results..."
-          );
+          Notiflix.Notify.info("You've reached the end of search results...");
         }
       } else {
         Notiflix.Notify.failure(
@@ -133,9 +140,7 @@ loadBtn.addEventListener(
       new SimpleLightbox('.gallery a');
       if (page >= totalPages) {
         loadBtn.style.display = 'none';
-        Notiflix.Notify.info(
-          "You've reached the end of search results..."
-        );
+        Notiflix.Notify.info("You've reached the end of search results...");
       }
     });
   },
