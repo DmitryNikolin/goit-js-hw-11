@@ -10,7 +10,7 @@ const gallery = document.querySelector('.gallery');
 const loadBtn = document.querySelector('.load-more');
 const closeBtn = document.querySelector('.close-btn');
 
-let perPage = 20;
+let perPage = 40;
 let page = 0;
 let name = searchQuery.value;
 

@@ -49,7 +49,7 @@ a {
 .search-form input {
   max-width: 370px;
   padding: 10px 10px;
-  float: left;
+  /* float: left; */
   color: black;
   font-weight: 500;
   border: 0;
@@ -63,8 +63,8 @@ a {
 }
 
 .search-form button {
-  position: relative;
-  float: right;
+  /* position: relative; */
+  /* float: right; */
   border: 0;
   padding: 10;
   cursor: pointer;
