@@ -63,9 +63,11 @@ async function eventHandler(e) {
         new SimpleLightbox('.gallery a');
         closeBtn.style.display = 'block';
         closeBtn.addEventListener('click', () => {
-          gallery.innerHTML = '';
+          searchQuery.value = '';
           closeBtn.style.display = 'none';
           loadBtn.style.display = 'none';
+          searchBtn.style.visibility = 'hidden';
+          gallery.innerHTML = '';
         });
 
         if (page < totalPages) {
@@ -146,3 +148,36 @@ loadBtn.addEventListener(
   },
   true
 );
+
+let hintElem;
+
+document.onmouseover = function (event) {
+  let target = event.target;
+  let hintHtml = target.dataset.hint;
+  if (!hintHtml) return;
+
+  hintElem = document.createElement('div');
+  hintElem.className = 'hint';
+  hintElem.innerHTML = hintHtml;
+  document.body.append(hintElem);
+
+  let coords = target.getBoundingClientRect();
+
+  let left = coords.left + (target.offsetWidth - hintElem.offsetWidth) / 2;
+  if (left < 0) left = 0;
+
+  let top = coords.top - hintElem.offsetHeight - 5;
+  if (top < 0) {
+    top = coords.top + target.offsetHeight + 5;
+  }
+
+  hintElem.style.left = left + 'px';
+  hintElem.style.top = top + 'px';
+};
+
+document.onmouseout = function (e) {
+  if (hintElem) {
+    hintElem.remove();
+    hintElem = null;
+  }
+};
