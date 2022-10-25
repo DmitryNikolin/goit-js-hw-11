@@ -22,15 +22,15 @@ searchBtn.style.visibility = 'hidden';
 
 searchQuery.addEventListener('input', searchBtnAdd);
 
-document.onkeydown = function onEnterPress(e) {
-  searchStrLength = e.target.value.trim().length;
-  keyCodePress = e.keyCode;
-  if (keyCodePress === 13 && searchStrLength === 0) {
-    Notiflix.Notify.failure(
-      'You must enter at least one character in the search string. Repeat request please...'
-    );
-  }
-};
+// searchQuery.onkeydown = function onEnterPress(e) {
+//   searchStrLength = e.target.value.trim().length;
+//   keyCodePress = e.keyCode;
+//   if (keyCodePress === 13 && searchStrLength === 0) {
+//     Notiflix.Notify.failure(
+//       'You must enter at least one character in the search string. Repeat request please...'
+//     );
+//   }
+// };
 
 function searchBtnAdd(e) {
   let searchStr = e.target.value.trim();
@@ -70,33 +70,39 @@ async function eventHandler(e) {
     .then(name => {
       let totalPages = name.totalHits / perPage;
       let searchStrLength = searchQuery.value.trim().length;
+      
+      if (searchStrLength > 0) {
+        if (name.hits.length > 0) {
+          Notiflix.Notify.success(`Hooray! We found ${name.totalHits} images.`);
+          renderGallery(name);
+          new SimpleLightbox('.gallery a');
+          closeBtn.style.display = 'block';
+          closeBtn.addEventListener('click', () => {
+            searchQuery.value = '';
+            closeBtn.style.display = 'none';
+            loadBtn.style.display = 'none';
+            searchBtn.style.visibility = 'hidden';
+            gallery.innerHTML = '';
+          });
 
-      if (name.hits.length > 0 && searchStrLength > 0) {
-        Notiflix.Notify.success(`Hooray! We found ${name.totalHits} images.`);
-        renderGallery(name);
-        new SimpleLightbox('.gallery a');
-        closeBtn.style.display = 'block';
-        closeBtn.addEventListener('click', () => {
-          searchQuery.value = '';
-          closeBtn.style.display = 'none';
-          loadBtn.style.display = 'none';
-          searchBtn.style.visibility = 'hidden';
-          gallery.innerHTML = '';
-        });
-
-        if (page < totalPages) {
-          loadBtn.style.display = 'block';
+          if (page < totalPages) {
+            loadBtn.style.display = 'block';
+          } else {
+            loadBtn.style.display = 'none';
+            Notiflix.Notify.info(
+              "We're sorry, but you've reached the end of search results."
+            );
+          }
         } else {
-          loadBtn.style.display = 'none';
-          Notiflix.Notify.info(
-            "We're sorry, but you've reached the end of search results."
+          Notiflix.Notify.failure(
+            'Sorry, there are no images matching your search query. Please try again.'
           );
+          gallery.innerHTML = '';
         }
       } else {
         Notiflix.Notify.failure(
-          'Sorry, there are no images matching your search query. Please try again.'
+          'You must enter at least one character in the search string. Repeat request please...'
         );
-        gallery.innerHTML = '';
       }
     })
     .catch(error => console.log('ERROR: ' + error));
