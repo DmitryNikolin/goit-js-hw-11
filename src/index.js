@@ -22,7 +22,7 @@ searchBtn.style.visibility = 'hidden';
 
 searchQuery.addEventListener('input', searchBtnAdd);
 
-searchQuery.onkeydown = function onEnterPress(e) {
+document.onkeydown = function onEnterPress(e) {
   searchStrLength = e.target.value.trim().length;
   keyCodePress = e.keyCode;
   if (keyCodePress === 13 && searchStrLength === 0) {
