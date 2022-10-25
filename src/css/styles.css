@@ -1,5 +1,16 @@
 @import '~node_modules/modern-normalize/modern-normalize.css';
 
+:root {
+  --imgHeight: 120px;
+  --imgWidth: 180px;
+  --imgMaxWidth: 200px;
+  --btnLeft: 15px;
+  --btnBottom: 35px;
+  --imgSpace: 5px;
+  --btnWidth: 40px;
+  --btnHeight: 40px;
+}
+
 * {
   box-sizing: border-box;
 }
@@ -24,20 +35,19 @@ a {
 }
 
 .search-container {
-  background-color: rgba(100, 150, 200, 0.2);
+  display: flex;
+  justify-content: flex-start;
   padding-top: 20px;
   padding-bottom: 20px;
   height: 90px;
   background-size: cover;
-  display: flex;
-  justify-content: flex-start;
+  background-color: rgba(100, 150, 200, 0.2);  
 }
 
 .search-form {
   display: flex;
   justify-content: center;
   margin-left: 20px;
-  background-color: teal;
   font: inherit;
   background: rgba(0, 0, 0, 0.2);
   border-radius: 10px;
@@ -46,10 +56,10 @@ a {
 
 .search-form input {
   padding: 10px 10px;
-  color: black;
-  border: 0;
-  border-radius: 10px 0 0 10px;
   background: transparent;
+  border-radius: 10px 0 0 10px;
+  border: 0;
+  color: black;
 }
 
 .search-form input:focus {
@@ -58,20 +68,19 @@ a {
 }
 
 .search-form button {
-  border: 0;
   padding: 10px;
   cursor: pointer;
-  width: auto;
-  color: white;
-  border-radius: 0 10px 10px 0;
   background: transparent;
+  border-radius: 0 10px 10px 0;
+  border: 0;
   border-left: 1px solid white;
+  color: white;
 }
 
 .search-form button:hover {
   background: white;
-  color: gray;
   border-radius: 0 9px 9px 0;
+  color: gray;
 }
 
 .search-form button:active {
@@ -90,36 +99,36 @@ a {
 
 .gallery .photo-card {
   display: flex;
-  flex-direction: column;
   justify-content: center;
-  max-width: 350px;
-  margin: 5px;
-  border-radius: 5px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2), 0 5px 5px rgba(0, 0, 0, 0.3);
+  flex-direction: column;
+  max-width: var(--imgMaxWidth);
+  margin: var(--imgSpace);
+  border-radius: var(--imgSpace);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2), 0 var(--imgSpace) var(--imgSpace) rgba(0, 0, 0, 0.3);
   overflow: hidden;
 }
 
 .gallery .photo-card .gallery-item {
-  max-width: 350px;
-}
-
-.gallery .photo-card .gallery-item:hover img {
-  transform: scale(1.15);
+  max-width: var(--imgMaxWidth);
 }
 
 .gallery .photo-card .gallery-item img {
-  width: 340px;
-  height: 130px;
+  width: var(--imgWidth);
+  height: var(--imgHeight);
   object-fit: cover;
-  border-radius: 5px;
+  border-radius: var(--imgSpace);
   transform: scale(1);
-  transition: transform 0.5s ease;
+  transition: transform 1s ease-in-out;
+}
+
+.gallery .photo-card .gallery-item:hover img {
+  transform: scale(1.2);
 }
 
 .info {
   display: flex;
-  gap: 5px;
   justify-content: space-around;
+  gap: var(--imgSpace);
   color: gray;
 }
 
@@ -133,42 +142,53 @@ a {
 .btn-container {
   position: relative;
   height: 100%;
+  bottom: -110px;
 }
 
 .btn-container .load-more,
 .btn-container .close-btn {
   position: absolute;
-  width: 40px;
-  height: 40px;
-  right: 5px;
+  width: var(--btnWidth);
+  height: var(--btnHeight);
+  right: 20px;
   background: white;
-  border: 1px solid gray;
 }
 
-.btn-container .load-more:hover,
+.btn-container .load-more:hover {
+  color: white;
+  background: blue;
+  border: 1px solid blue;
+  cursor: pointer;
+}
+
 .btn-container .close-btn:hover {
   color: white;
-  background: gray;
-  border: 1px solid gray;
+  background: red;
+  border: 1px solid red;
   cursor: pointer;
 }
 
 .btn-container .load-more {
-  bottom: 5px;
+  bottom: var(--btnBottom);
+  left: var(--btnLeft);
+  border: 1px solid blue;
+  color: blue;
 }
 
 .btn-container .close-btn {
-  bottom: 80px;
+  bottom: var(--btnBottom);
+  border: 1px solid red;
+  color: red;
 }
 
 .hint {
   position: fixed;
   padding: 2px 4px;
-  border: 1px solid green;
-  border-radius: 4px;
+  border-radius: 5px;
+  border: 1px solid gray;
   text-align: center;
   font-size: 12px;
-  color: #333;
-  background: #fff;
+  color: gray;
+  background: white;
   box-shadow: 3px 3px 3px rgba(0, 0, 0, .3);
 }

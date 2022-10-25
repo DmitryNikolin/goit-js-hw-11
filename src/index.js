@@ -11,7 +11,7 @@ const searchBtn = document.querySelector('.search');
 const loadBtn = document.querySelector('.load-more');
 const closeBtn = document.querySelector('.close-btn');
 
-let perPage = 20;
+let perPage = 40;
 let page = 0;
 let name = searchQuery.value.trim();
 
@@ -27,6 +27,8 @@ function searchBtnAdd(e) {
     searchBtn.style.visibility = 'visible';
   } else {
     searchBtn.style.visibility = 'hidden';
+    closeBtn.style.display = 'none';
+    loadBtn.style.display = 'none';
     gallery.innerHTML = '';
   }
 }
@@ -114,7 +116,7 @@ function renderGallery(name) {
           </div>
           <div class="info__box">
             <p class="info-item">
-              <b class="material-symbols-outlined">forum</b>
+              <b class="material-symbols-outlined">comment</b>
             </p>
             <p class="info-counter">${hit.comments.toLocaleString()}</p>
           </div>
