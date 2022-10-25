@@ -1,3 +1,4 @@
+import './css/styles.css';
 import 'simplelightbox';
 import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
@@ -20,6 +21,16 @@ closeBtn.style.display = 'none';
 searchBtn.style.visibility = 'hidden';
 
 searchQuery.addEventListener('input', searchBtnAdd);
+
+searchQuery.onkeydown = function onEnterPress(e) {
+  searchStrLength = e.target.value.trim().length;
+  keyCodePress = e.keyCode;
+  if (keyCodePress === 13 && searchStrLength === 0) {
+    Notiflix.Notify.failure(
+      'You must enter at least one character in the search string. Repeat request please...'
+    );
+  }
+};
 
 function searchBtnAdd(e) {
   let searchStr = e.target.value.trim();
@@ -58,8 +69,9 @@ async function eventHandler(e) {
   fetchImages(name, page, perPage)
     .then(name => {
       let totalPages = name.totalHits / perPage;
+      let searchStrLength = searchQuery.value.trim().length;
 
-      if (name.hits.length > 0) {
+      if (name.hits.length > 0 && searchStrLength > 0) {
         Notiflix.Notify.success(`Hooray! We found ${name.totalHits} images.`);
         renderGallery(name);
         new SimpleLightbox('.gallery a');
@@ -82,7 +94,7 @@ async function eventHandler(e) {
         }
       } else {
         Notiflix.Notify.failure(
-          "Sorry, there are no images matching your search query. Please try again."
+          'Sorry, there are no images matching your search query. Please try again.'
         );
         gallery.innerHTML = '';
       }
