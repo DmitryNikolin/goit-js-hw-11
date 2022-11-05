@@ -4,7 +4,10 @@ import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
 import Notiflix from 'notiflix';
 import axios from 'axios';
+// import debounce from 'lodash.debounce';
+// import throttle from 'lodash.throttle';
 
+// const _ = require('lodash');
 const searchQuery = document.querySelector('input[name="searchQuery"]');
 const searchForm = document.querySelector('#search-form');
 const gallery = document.querySelector('.gallery');
@@ -13,10 +16,13 @@ const loadBtn = document.querySelector('.load-more');
 const closeBtn = document.querySelector('.close-btn');
 
 let perPage = 40;
-let perPageForInfinityScroll = Math.trunc(perPage / 5);
-let scrollPos = 0;
 let page = 0;
 let name = searchQuery.value.trim();
+// let perPageForClassicScroll = perPage;
+// let perPageForInfinityScroll = Math.trunc(perPage / 5);
+// let scrollPos = 0;
+// let notifyFlag = false;
+
 
 loadBtn.style.display = 'none';
 closeBtn.style.display = 'none';
@@ -39,16 +45,14 @@ function searchBtnAdd(e) {
 async function fetchImages(name, page, perPage) {
   const baseURL = 'https://pixabay.com/api/';
   const key = '30807376-0b6c24285cff505c2f1e15934';
-
   try {
     const response = await axios.get(
       `${baseURL}?key=${key}&q=${name}&image_type=photo&orientation=horizontal&safesearch=true&page=${page}&per_page=${perPage}`
     );
     return response.data;
   } catch (error) {
+    // document.removeEventListener('scroll', listener);
     Notiflix.Notify.failure('Add images error! ' + error);
-    // console.log('ERROR: ' + error);
-    return response.error;
   }
 }
 
@@ -59,10 +63,10 @@ async function eventHandler(e) {
 
   page = 1;
   name = searchQuery.value.trim();
-
+  
   fetchImages(name, page, perPage)
     .then(name => {
-      let totalPages = name.totalHits / perPage;
+      let totalPages = Math.trunc(name.totalHits / perPage);
       let searchStrLength = searchQuery.value.trim().length;
 
       if (searchStrLength > 0) {
@@ -99,9 +103,10 @@ async function eventHandler(e) {
         );
       }
     })
-    .catch(error =>
-      Notiflix.Notify.failure('Error add images to gallery!' + error)
-    );
+    .catch(error => {
+      // document.removeEventListener('scroll', listener);
+      Notiflix.Notify.failure('Error add images to gallery!' + error);
+    });
 }
 
 searchForm.addEventListener('submit', eventHandler);
@@ -149,80 +154,80 @@ function renderGallery(name) {
   gallery.insertAdjacentHTML('beforeend', markup);
 }
 
-// loadBtn.addEventListener(
-//   'click',
-//   () => {
-//     name = searchQuery.value;
-//     page += 1;
-//     fetchImages(name, page, perPage).then(name => {
-//       let totalPages = name.totalHits / perPage;
-//       renderGallery(name);
-//       new SimpleLightbox('.gallery a');
-//       if (page >= totalPages) {
-//         loadBtn.style.display = 'none';
-//         Notiflix.Notify.info(
-//           "We're sorry, but you've reached the end of search results."
-//         );
-//       }
-//     });
-//   },
-//   true
-// );
-
-window.addEventListener(
-  'scroll',
+loadBtn.addEventListener(
+  'click',
   () => {
-    if (document.body.getBoundingClientRect().top <= scrollPos) {
-      name = searchQuery.value;
-      page += 1;
-      loadBtn.style.display = 'none';
-      closeBtn.style.display = 'none';
-      perPage = perPageForInfinityScroll;
-      fetchImages(name, page, perPage).then(name => {
-        let totalPages = name.totalHits / perPage;
-        renderGallery(name);
-        new SimpleLightbox('.gallery a');
-        if (page >= totalPages) {
-          Notiflix.Notify.info(
-            "We're sorry, but you've reached the end of search results."
-          );
-        }
-      });
-      scrollPos = document.body.getBoundingClientRect().top;
-    }
+    name = searchQuery.value;
+    page += 1;
+    fetchImages(name, page, perPage).then(name => {
+      let totalPages = name.totalHits / perPage;
+      renderGallery(name);
+      new SimpleLightbox('.gallery a');
+      if (page >= totalPages) {
+        loadBtn.style.display = 'none';
+        Notiflix.Notify.info(
+          "We're sorry, but you've reached the end of search results."
+        );
+      }
+    });
   },
   true
 );
 
-// let hintElem;
-
-// document.onmouseover = function (event) {
-//   let target = event.target;
-//   let hintHtml = target.dataset.hint;
-//   if (!hintHtml) return;
-
-//   hintElem = document.createElement('div');
-//   hintElem.className = 'hint';
-//   hintElem.innerHTML = hintHtml;
-//   document.body.append(hintElem);
-
-//   let coords = target.getBoundingClientRect();
-
-//   let left = coords.left + (target.offsetWidth - hintElem.offsetWidth) / 2;
-//   if (left < 0) left = 0;
-
-//   let top = coords.top - hintElem.offsetHeight - 5;
-//   if (top < 0) {
-//     top = coords.top + target.offsetHeight + 5;
-//   }
-
-//   hintElem.style.left = left + 'px';
-//   hintElem.style.top = top + 'px';
-// };
-
-// document.onmouseout = function (e) {
-//   if (hintElem) {
-//     hintElem.remove();
-//     hintElem = null;
+// let listener = function () {
+//   loadBtn.style.display = 'none';
+//   closeBtn.style.display = 'none';
+//   if (document.body.getBoundingClientRect().top < scrollPos) {
+//     name = searchQuery.value;
+//     let perPage = perPageForInfinityScroll;
+//     page += 1;
+//     fetchImages(name, page, perPage).then(name => {
+//       let totalPages = Math.trunc(name.totalHits / perPage);
+//       renderGallery(name);
+//       new SimpleLightbox('.gallery a');
+//       if (page >= totalPages && !notifyFlag) {
+//         Notiflix.Notify.info(
+//           "We're sorry, but you've reached the end of search results."
+//         );
+//         notifyFlag = true;
+//         return;
+//       }
+//     });
+//     scrollPos = document.body.getBoundingClientRect().top;
 //   }
 // };
+
+// document.addEventListener('scroll', listener);
+
+let hintElem;
+
+document.onmouseover = function (event) {
+  let target = event.target;
+  let hintHtml = target.dataset.hint;
+  if (!hintHtml) return;
+
+  hintElem = document.createElement('div');
+  hintElem.className = 'hint';
+  hintElem.innerHTML = hintHtml;
+  document.body.append(hintElem);
+
+  let coords = target.getBoundingClientRect();
+
+  let left = coords.left + (target.offsetWidth - hintElem.offsetWidth) / 2;
+  if (left < 0) left = 0;
+
+  let top = coords.top - hintElem.offsetHeight - 5;
+  if (top < 0) {
+    top = coords.top + target.offsetHeight + 5;
+  }
+
+  hintElem.style.left = left + 'px';
+  hintElem.style.top = top + 'px';
+};
+
+document.onmouseout = function (e) {
+  if (hintElem) {
+    hintElem.remove();
+    hintElem = null;
+  }
+};
